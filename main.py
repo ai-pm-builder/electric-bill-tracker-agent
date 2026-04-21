@@ -10,7 +10,16 @@ def main():
     
     # Initialize components
     scraper = UPPCLScraper(headless=True) # set to False if you want to see the browser
-    logger = CSVLogger()
+    
+    # Automatically switch between Cloud Storage and Local storage
+    if os.getenv("GOOGLE_CREDENTIALS"):
+        from storage.google_sheets_logger import GoogleSheetsLogger
+        print("Using Google Sheets for cloud state tracking...")
+        logger = GoogleSheetsLogger()
+    else:
+        print("Using local CSV for state tracking...")
+        logger = CSVLogger()
+        
     bot = TelegramBot()
     
     # Read configuration from .env or defaults

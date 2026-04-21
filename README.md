@@ -1,28 +1,56 @@
-# UPPCL Daily Tracker Setup
+# ⚡ Autonomous Electric Bill Tracking Agent
 
-This agent uses a lightweight, built-in AI (ONNX) to automatically bypass the CAPTCHA and fetch your electricity bill. No heavy external OCR engines are required!
+## Overview
 
-## Step 1: Configure Credentials
-1. Rename `.env.example` to `.env`.
-2. Open `.env` and fill in your:
-   - `TELEGRAM_BOT_TOKEN`
-   - `TELEGRAM_CHAT_ID` *(Optional: If you don't know it, just leave it blank or dummy text. The script will auto-discover it!)*
-   - `UPPCL_ACCOUNT_1_DISTRICT` 
-   - `UPPCL_ACCOUNT_1_DISCOM` 
-   - `UPPCL_ACCOUNT_1_NUMBER`
+This project is an **Autonomous Agent** designed to help you track your daily electricity consumption and spending effortlessly. It automatically checks the Smart Meter portal everyday, retrieves your latest pre-paid smart meter balance, calculates your daily electricity spend, and sends a summarized report directly to your Telegram.
 
-## Step 2: Initialize Telegram
-Telegram bots **cannot** send you messages until you message them first. 
-Open the Telegram app, search for your bot, and send it a quick message (like "Hello"). Our script will automatically detect this message and find your Chat ID.
+### Why use this Agent?
+- **AI-Powered CAPTCHA Solver:** This agent uses a lightweight, built-in AI (ONNX model) to automatically solve the CAPTCHA locally on your machine—no expensive external OCR APIs required!
+- **Daily Spend Tracking:** It calculates exactly how much you spent on electricity by fetching yesterday's balance and doing the math.
+- **Automated Telegram Alerts:** Delivers your daily balance and spend right to your phone so you never have to manually log in to the portal again.
+- **Flexible Execution:** Run it manually on your machine, schedule it via Windows Task Scheduler, OR deploy it 100% free to the cloud using **GitHub Actions**.
 
-## Step 3: Test the Scraper
-To test if it works natively on your machine, open a terminal in this folder and run:
-```powershell
-.\.venv\Scripts\Activate.ps1
-python main.py
-```
+## Getting Started
 
-## Step 4: Setup Daily Schedule
-Once the test works, simply run the PowerShell script I provided to set up the daily task:
-1. Right-click `setup_scheduler.ps1` and select **Run with PowerShell**.
-   *(Note: You will need to edit this script slightly to point `$Action = New-ScheduledTaskAction -Execute "python_executable_path_here"` to the python.exe inside your `.venv\Scripts\` folder).*
+### Local Setup (Windows/Mac)
+If you want to run this directly on your own computer:
+
+1. Open a terminal and run:
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   playwright install chromium
+   ```
+2. Rename `.env.example` to `.env` and fill in your electric account details and Telegram details.
+   *(Note: The script can auto-discover your Telegram Chat ID automatically if you send a message to your bot first!)*
+3. To run it once, execute `python main.py`.
+
+### Cloud Deployment (GitHub Actions + Google Sheets)
+Because GitHub Actions servers are wiped clean after every run, you cannot store your local `.csv` file there. To run this completely headlessly in the cloud, we use **Google Sheets** as a database!
+
+#### 1. Setup Google Sheets
+1. Create a blank Google Sheet and note the `GOOGLE_SHEET_ID` from the URL.
+2. Go to the [Google Cloud Console](https://console.cloud.google.com/), create a project, and enable the **Google Sheets API** and **Google Drive API**.
+3. Create a **Service Account** and generate a JSON Key file.
+4. **Share** your Google Sheet with the Service Account email address as an Editor.
+5. Copy the entire raw JSON text from your key file—this will be your `GOOGLE_CREDENTIALS`.
+
+#### 2. Configure GitHub Secrets
+Go to your **Private GitHub Repository** -> **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**.
+
+Add ALL the following secrets:
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID` (*Optional*)
+- `UPPCL_ACCOUNT_1_DISTRICT`
+- `UPPCL_ACCOUNT_1_DISCOM`
+- `UPPCL_ACCOUNT_1_NUMBER`
+- `GOOGLE_SHEET_ID`
+- `GOOGLE_CREDENTIALS` (Paste the absolute raw JSON string here)
+
+#### 3. Run it!
+Once your secrets are set in GitHub, the bot will automatically run every single morning at **9:00 AM IST**! 
+You can manually trigger a run immediately by going to the **Actions** tab -> **UPPCL Daily Tracker** -> **Run workflow**.
+
+---
+**Disclaimer:** This tool is an independent personal assistant to help track your own meter's usage. It is not affiliated with or endorsed by any organisation.
