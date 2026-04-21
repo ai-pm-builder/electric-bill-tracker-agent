@@ -1,22 +1,19 @@
 # UPPCL Daily Tracker Setup
 
-I have created all the necessary files for your agent! 
-Because this agent uses OCR (Optical Character Recognition) to automatically bypass the CAPTCHA, there is one system dependency you must install manually, and a few credentials you need to provide.
+This agent uses a lightweight, built-in AI (ONNX) to automatically bypass the CAPTCHA and fetch your electricity bill. No heavy external OCR engines are required!
 
-## Step 1: Install Tesseract OCR (Required for Captcha)
-1. Download the Tesseract-OCR installer for Windows from here: [UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
-2. Run the installer. Note the installation path (usually `C:\Program Files\Tesseract-OCR`).
-3. Add the installation folder to your Windows `PATH` environment variable.
-   *(Or, edit `scrapers/uppcl_scraper.py` and uncomment the `pytesseract.pytesseract.tesseract_cmd` line and set the correct path).*
-
-## Step 2: Configure Credentials
+## Step 1: Configure Credentials
 1. Rename `.env.example` to `.env`.
 2. Open `.env` and fill in your:
    - `TELEGRAM_BOT_TOKEN`
-   - `TELEGRAM_CHAT_ID`
-   - `UPPCL_ACCOUNT_1_DISTRICT` (e.g., Unnao)
-   - `UPPCL_ACCOUNT_1_DISCOM` (e.g., MVVNL)
+   - `TELEGRAM_CHAT_ID` *(Optional: If you don't know it, just leave it blank or dummy text. The script will auto-discover it!)*
+   - `UPPCL_ACCOUNT_1_DISTRICT` 
+   - `UPPCL_ACCOUNT_1_DISCOM` 
    - `UPPCL_ACCOUNT_1_NUMBER`
+
+## Step 2: Initialize Telegram
+Telegram bots **cannot** send you messages until you message them first. 
+Open the Telegram app, search for your bot, and send it a quick message (like "Hello"). Our script will automatically detect this message and find your Chat ID.
 
 ## Step 3: Test the Scraper
 To test if it works natively on your machine, open a terminal in this folder and run:
