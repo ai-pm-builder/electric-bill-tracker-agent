@@ -1,9 +1,12 @@
 # This PowerShell script creates a scheduled task to run the UPPCL Daily Tracker
 # every morning at 9:00 AM.
 
-$Action = New-ScheduledTaskAction -Execute "python_executable_path_here" -Argument "main.py" -WorkingDirectory "$PSScriptRoot"
+$CurrentPath = $PSScriptRoot
+$PythonPath = "$CurrentPath\.venv\Scripts\python.exe"
+$Action = New-ScheduledTaskAction -Execute $PythonPath -Argument "main.py" -WorkingDirectory $CurrentPath
 $Trigger = New-ScheduledTaskTrigger -Daily -At 9:00AM
-$Principal = New-ScheduledTaskPrincipal -LogonType Interactive
+$CurrentUser = "$env:USERDOMAIN\$env:USERNAME"
+$Principal = New-ScheduledTaskPrincipal -UserId $CurrentUser -LogonType Interactive
 $Settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
 
 $TaskName = "UPPCL_Daily_Bill_Tracker"
