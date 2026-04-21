@@ -1,11 +1,11 @@
-# ⚡ UPPCL Electric Bill Tracking Agent
+# ⚡ Autonomous Electric Bill Tracking Agent
 
 ## Overview
 
-This project is an **Autonomous Agent** designed to help you track your daily electricity consumption and spending effortlessly. It automatically checks the UPPCL (Uttar Pradesh Power Corporation Limited) Smart Meter portal everyday, retrieves your latest pre-paid smart meter balance, calculates your daily electricity spend, and sends a summarized report directly to your Telegram.
+This project is an **Autonomous Agent** designed to help you track your daily electricity consumption and spending effortlessly. It automatically checks the Smart Meter portal everyday, retrieves your latest pre-paid smart meter balance, calculates your daily electricity spend, and sends a summarized report directly to your Telegram.
 
 ### Why use this Agent?
-- **AI-Powered CAPTCHA Solver:** The UPPCL portal uses image CAPTCHAs that typically prevent automation. This agent uses a lightweight, built-in AI (ONNX model) to automatically solve the CAPTCHA locally on your machine—no expensive external OCR APIs required!
+- **AI-Powered CAPTCHA Solver:** This agent uses a lightweight, built-in AI (ONNX model) to automatically solve the CAPTCHA locally on your machine—no expensive external OCR APIs required!
 - **Daily Spend Tracking:** It calculates exactly how much you spent on electricity by fetching yesterday's balance and doing the math.
 - **Automated Telegram Alerts:** Delivers your daily balance and spend right to your phone so you never have to manually log in to the portal again.
 - **Flexible Execution:** Run it manually on your machine, schedule it via Windows Task Scheduler, OR deploy it 100% free to the cloud using **GitHub Actions**.
@@ -22,7 +22,7 @@ If you want to run this directly on your own computer:
    pip install -r requirements.txt
    playwright install chromium
    ```
-2. Rename `.env.example` to `.env` and fill in your UPPCL and Telegram details.
+2. Rename `.env.example` to `.env` and fill in your electric account details and Telegram details.
    *(Note: The script can auto-discover your Telegram Chat ID automatically if you send a message to your bot first!)*
 3. To run it once, execute `python main.py`.
 
@@ -53,4 +53,4 @@ Once your secrets are set in GitHub, the bot will automatically run every single
 You can manually trigger a run immediately by going to the **Actions** tab -> **UPPCL Daily Tracker** -> **Run workflow**.
 
 ---
-**Disclaimer:** This tool is an independent personal assistant to help track your own meter's usage. It is not affiliated with or endorsed by UPPCL.
+**Disclaimer:** This tool is an independent personal assistant to help track your own meter's usage. It is not affiliated with or endorsed by any organisation.
