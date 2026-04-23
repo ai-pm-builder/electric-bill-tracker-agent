@@ -36,6 +36,9 @@ jobs:
         UPPCL_ACCOUNT_1_DISTRICT: ${{ secrets.UPPCL_ACCOUNT_1_DISTRICT }}
         UPPCL_ACCOUNT_1_DISCOM: ${{ secrets.UPPCL_ACCOUNT_1_DISCOM }}
         UPPCL_ACCOUNT_1_NUMBER: ${{ secrets.UPPCL_ACCOUNT_1_NUMBER }}
+        UPPCL_ACCOUNT_2_DISTRICT: ${{ secrets.UPPCL_ACCOUNT_2_DISTRICT }}
+        UPPCL_ACCOUNT_2_DISCOM: ${{ secrets.UPPCL_ACCOUNT_2_DISCOM }}
+        UPPCL_ACCOUNT_2_NUMBER: ${{ secrets.UPPCL_ACCOUNT_2_NUMBER }}
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
       run: python main.py
