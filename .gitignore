@@ -7,3 +7,4 @@ env/
 venv/
 playwright-report/
 test-results/
+google_credentials.json

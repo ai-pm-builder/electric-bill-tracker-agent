@@ -46,7 +46,7 @@ def main():
             print("Failed to send Telegram notification.")
             
     except Exception as e:
-        error_msg = f"❌ Error in UPPCL Tracker for Account {account_no}: {e}"
+        error_msg = f"Error in UPPCL Tracker for Account {account_no}: {e}"
         print(error_msg)
         bot.send_message(error_msg)
 

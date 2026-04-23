@@ -17,11 +17,23 @@ class GoogleSheetsLogger:
 
     def _authenticate(self):
         creds_json = os.getenv("GOOGLE_CREDENTIALS")
-        if not creds_json:
-            raise ValueError("Missing GOOGLE_CREDENTIALS environment variable. Must be a valid JSON string of the service account.")
+        creds_dict = None
+        
+        # Check if they have the JSON file locally to avoid .env string parsing headaches
+        if os.path.exists("google_credentials.json"):
+            print("GoogleSheetsLogger: Loading credentials from local google_credentials.json file...")
+            with open("google_credentials.json", "r") as f:
+                creds_dict = json.load(f)
+        elif creds_json:
+            try:
+                creds_dict = json.loads(creds_json)
+            except json.JSONDecodeError:
+                raise Exception("The GOOGLE_CREDENTIALS string in your .env is corrupted (invalid JSON syntax). Please use a file instead.")
+                
+        if not creds_dict:
+            raise ValueError("Missing GOOGLE_CREDENTIALS. Provide it via .env or save the file as google_credentials.json in the project root!")
         
         try:
-            creds_dict = json.loads(creds_json)
             credentials = Credentials.from_service_account_info(creds_dict, scopes=self.scopes)
             self.client = gspread.authorize(credentials)
             self.sheet = self.client.open_by_key(self.sheet_id).sheet1
