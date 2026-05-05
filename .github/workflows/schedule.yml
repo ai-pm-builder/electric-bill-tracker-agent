@@ -31,6 +31,7 @@ jobs:
         
     - name: Run UPPCL Tracker
       env:
+        PYTHONIOENCODING: utf-8
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         UPPCL_ACCOUNT_1_DISTRICT: ${{ secrets.UPPCL_ACCOUNT_1_DISTRICT }}

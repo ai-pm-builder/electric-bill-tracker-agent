@@ -115,6 +115,9 @@ class UPPCLScraper:
                     except PlaywrightTimeoutError:
                         pass # No simple error toast appeared
                     
+                    # Save a debug screenshot of the results page
+                    page.screenshot(path="output/last_result_page.png")
+                    
                     # Extract Balance
                     print("Looking for balance...")
                     try:
@@ -131,19 +134,21 @@ class UPPCLScraper:
                         
                     print(f"Raw parent text extracted: {balance_text}")
                     
-                    # Parsing
-                    matches = re.findall(r'[\d\,]+\.\d{2}', balance_text)
+                    # Parsing (supports negative balances e.g. -1,234.56)
+                    matches = re.findall(r'-?\s*[\d\,]+\.\d{2}', balance_text)
                     if matches:
-                        balance_val = float(matches[-1].replace(',', ''))
+                        raw = matches[-1].replace(',', '').replace(' ', '')
+                        balance_val = float(raw)
                         print(f"Parsed Balance: {balance_val}")
                         context.close()
                         browser.close()
                         return balance_val
                     else:
                         print(f"Could not find standard number format in: {balance_text}")
-                        match = re.search(r'(\d+)', balance_text)
+                        match = re.search(r'(-?\s*\d+)', balance_text)
                         if match:
-                             balance_val = float(match.group(1))
+                             raw = match.group(1).replace(' ', '')
+                             balance_val = float(raw)
                              print(f"Parsed Fallback Balance: {balance_val}")
                              context.close()
                              browser.close()

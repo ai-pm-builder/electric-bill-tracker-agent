@@ -45,7 +45,8 @@ def main():
         try:
             # 1. Scrape Current Balance
             current_balance = scraper.get_remaining_balance(district, discom, account_no)
-            print(f"Successfully retrieved current balance: ₹ {current_balance}")
+            balance_display = f"₹ {current_balance}" if current_balance >= 0 else f"₹ {abs(current_balance)} (Due)"
+            print(f"Successfully retrieved current balance: {balance_display}")
             
             # 2. Log and Calculate Daily Spend
             daily_spend = logger.log_balance(account_no, current_balance)

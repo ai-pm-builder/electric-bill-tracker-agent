@@ -68,10 +68,15 @@ class TelegramBot:
         if daily_spend < 0:
             spend_text = f"₹ {abs(daily_spend):.2f} (Account Recharged/Increased)"
         
+        if current_balance < 0:
+            balance_text = f"₹ {abs(current_balance):.2f} (Due)"
+        else:
+            balance_text = f"₹ {current_balance:.2f}"
+        
         msg = (
             f"⚡️ *UPPCL Daily Bill Update*\n\n"
             f"👤 *Account:* `{account_no}`\n"
             f"💸 *Daily Spend:* {spend_text}\n"
-            f"💰 *Remaining Balance:* ₹ {current_balance:.2f}"
+            f"💰 *Remaining Balance:* {balance_text}"
         )
         return self.send_message(msg)
